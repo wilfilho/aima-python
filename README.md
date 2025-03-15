@@ -32,7 +32,7 @@ Para desempate, também se considera o total de unidades – ou seja, entre solu
 
 ---
 
-## Parte 2: Implementação da Solução em Python
+## Parte 2: Implementação da Solução com AIMA-Python
 
 Esta implementação utiliza as estruturas de dados básicas para representar o problema:
 - **Dicionários para os dados:**  
