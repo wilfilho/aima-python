@@ -513,4 +513,4 @@ A solução desenvolvida foi capaz de encontrar a solução ótimo descrita pelo
 - **Valor Objetivo (Média):** 5.0
 - **Tempo de Execução:** (exemplo) 0.0179 segundos
 
-A solução ótima é encontrada e retornada, com tempo de execução exibido, demonstrando que, embora a enumeração completa seja viável para o exemplo atual, métodos heurísticos serão essenciais para problemas de maior escala.
+O tempo de execução exibido, demonstrando que, embora a enumeração completa seja viável para o exemplo atual, métodos heurísticos serão essenciais para problemas de maior escala.
