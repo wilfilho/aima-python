@@ -499,6 +499,12 @@ A solução ótima agrupa quatro pedidos, atingindo 10 unidades. Com 2 corredore
 
   No entanto, é importante notar que o tempo de execução está diretamente relacionado ao tamanho do espaço de busca. Se o número de variáveis aumentar, o tempo de execução pode crescer exponencialmente, o que ressalta a importância de otimizações e heurísticas para problemas maiores.
 
+  - **Cenários de Maior Escala:**  
+  Em problemas com um número maior de variáveis (por exemplo, com muitos pedidos e/ou muitos corredores), o espaço de busca cresce exponencialmente. Para esses casos, recomenda-se:
+  - Utilizar heurísticas como MRV (Minimum Remaining Values) para seleção de variáveis.
+  - Aplicar LCV (Least Constraining Value) para ordenar os valores.
+  - Implementar técnicas de propagação de restrições.
+
 - **Conclusão do Desempenho:**  
   A abordagem atual é adequada para o exemplo fornecido. Para aplicações em larga escala, adaptações e otimizações serão necessárias para manter a eficiência da resolução.
 
