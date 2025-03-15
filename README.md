@@ -5,102 +5,136 @@
 
 Python code for the book *[Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu).* You can use this in conjunction with a course on AI, or for study on your own. We're looking for [solid contributors](https://github.com/aimacode/aima-python/blob/master/CONTRIBUTING.md) to help.
 
-# Resolução do Problema da Seleção Ótima de Pedidos em Waves
+# Resolução do Problema de Seleção Ótima de Pedidos em Waves
 
-Esta documentação apresenta a resolução do problema em três partes, utilizando o paradigma de CSP e a implementação do código do AIMA (em Python) como base. O código foi desenvolvido para modelar as restrições do problema, buscar soluções viáveis através de backtracking e, por fim, selecionar a solução ótima considerando a média de itens coletados por corredor (com critério de desempate pelo total de unidades).
+Esta documentação apresenta a resolução do problema em três partes, detalhando como modelar o problema como um CSP, implementar a solução em Python (utilizando o código do AIMA) e, por fim, comparar as diferentes waves geradas, testar o exemplo fornecido e analisar o desempenho do CSP em cenários variados.
 
 ---
 
 ## Parte 1: Modelagem do Problema como CSP
 
-**Definição e Variáveis**  
-O problema consiste em selecionar um subconjunto dos pedidos e dos corredores de forma a maximizar a produtividade da coleta no armazém. Para isso, o problema foi modelado como um CSP com as seguintes características:
+**Definição dos Componentes (X, D, C):**
 
-- **Variáveis:**  
-  - Pedidos: `O0`, `O1`, `O2`, `O3`, `O4`
-  - Corredores: `A0`, `A1`, `A2`, `A3`, `A4`
-  
-- **Domínio:** Cada variável pode assumir o valor 0 (não selecionado) ou 1 (selecionado).
+- **Variáveis (X):**  
+  - **Pedidos:** O0, O1, O2, O3, O4  
+  - **Corredores:** A0, A1, A2, A3, A4  
 
-**Restrições**  
-Foram definidas duas restrições principais:
-1. **Total de Unidades:** Se todos os pedidos forem avaliados, o total de unidades (obtido somando as quantidades de cada pedido selecionado) deve estar entre um limite inferior (LB) e um limite superior (UB).
-2. **Disponibilidade:** Quando a atribuição estiver completa, para cada item o total solicitado nos pedidos selecionados não pode exceder o total disponível nos corredores selecionados.
+- **Domínios (D):**  
+  Cada variável pode assumir o valor 0 (não selecionado) ou 1 (selecionado).
 
-**Função Objetivo**  
-A produtividade é mensurada pela média de itens coletados por corredor:
-- Objetivo = (Total de Unidades dos Pedidos Selecionados) ÷ (Número de Corredores Selecionados)
+- **Restrições (C):**  
+  1. **Total de Unidades:**  
+     Se todas as variáveis dos pedidos estiverem atribuídas, a soma das unidades dos pedidos selecionados deve estar entre o limite inferior (LB) e o limite superior (UB).
+  2. **Disponibilidade:**  
+     Quando todas as variáveis (pedidos e corredores) estão atribuídas, para cada item a quantidade total solicitada (nos pedidos selecionados) não pode exceder a quantidade disponível (nos corredores selecionados).
 
-Em caso de empate na média, a solução com maior total de unidades é considerada melhor.
+**Função Objetivo:**  
+A produtividade é definida pela média de itens coletados por corredor, isto é:  
+
+\[
+\text{Objetivo} = \frac{\text{Total de Unidades dos Pedidos Selecionados}}{\text{Número de Corredores Selecionados}}
+\]
+
+Para desempate, é considerado também o total de unidades – ou seja, entre soluções com a mesma média, a que tiver maior total de unidades é considerada melhor.
 
 ---
 
 ## Parte 2: Implementação da Solução em Python
 
-A implementação foi realizada com base no código do AIMA para CSP, utilizando uma classe que estende o CSP e redefine os métodos relevantes para incorporar as restrições globais do problema. Os pontos principais da implementação são:
+**Abordagem e Estrutura:**
 
 - **Dados e Domínios:**  
-  Os dados dos pedidos e dos corredores foram definidos conforme o exemplo. Cada variável (pedido ou corredor) tem o domínio {0, 1}.
+  Os pedidos e os corredores são definidos conforme o exemplo (cada um representado por uma lista de quantidades) e os limites LB e UB são estabelecidos de acordo com o problema.
 
-- **Função de Restrições:**  
-  A função verifica, de forma global, se o total de unidades dos pedidos selecionados está dentro dos limites e se a disponibilidade dos corredores atende à demanda para cada item.
+- **Restrição Global:**  
+  Uma função de restrição verifica se o total de unidades dos pedidos selecionados está entre LB e UB e, quando a atribuição é completa, se para cada item a soma das quantidades dos pedidos selecionados não ultrapassa a soma das quantidades disponíveis nos corredores selecionados.
 
-- **Backtracking com Enumeração Completa:**  
-  Foi implementada uma função de backtracking personalizada que, ao invés de retornar apenas a primeira solução viável (como faz o backtracking_search padrão do AIMA), enumera todas as soluções possíveis. Em seguida, é aplicada a função objetivo (definida como um par com média e total de unidades) para selecionar a solução ótima.
+- **Função Objetivo:**  
+  É definida uma função que retorna um par (média, total de unidades). Essa representação permite comparar soluções lexicograficamente, favorecendo a solução com maior média e, em caso de empate, a que possui maior total de unidades.
 
-- **Critério de Seleção:**  
-  A solução ótima é aquela que maximiza o par (média, total de unidades), garantindo que, entre soluções com a mesma média, seja escolhida a que tem maior total de unidades.
+- **Método de Busca:**  
+  Utiliza-se uma implementação de backtracking (adaptada do código do AIMA) que enumera todas as soluções viáveis. Com 10 variáveis (domínio binário), o espaço de busca possui 2¹⁰ = 1024 combinações, o que torna a enumeração completa viável.
+
+**Comparação de Diferentes Waves e Destaque da Solução Ótima:**
+
+- Durante a busca, o algoritmo gera e lista todas as soluções (waves) viáveis, exibindo para cada uma o conjunto de pedidos e corredores selecionados, bem como o valor objetivo (par: média, total de unidades).
+- Ao final, a solução com o maior par (média, total de unidades) é selecionada e exibida de forma destacada para evidenciar a wave ótima.
 
 ---
 
-## Parte 3: Testes e Validação
+## Parte 3: Testes, Validação e Análise de Desempenho
 
-**Exemplo e Resultados Esperados**  
-Para o exemplo fornecido, os dados são:
+### Teste com o Exemplo Fornecido
 
-- **Pedidos:**  
+**Dados do Exemplo:**
+
+- **Pedidos:**
   - O0: [3, 0, 1, 0, 0]
   - O1: [0, 1, 0, 1, 0]
   - O2: [0, 0, 1, 0, 2]
   - O3: [1, 0, 2, 1, 1]
   - O4: [0, 1, 0, 0, 0]
 
-- **Corredores:**  
+- **Corredores:**
   - A0: [2, 1, 1, 0, 1]
   - A1: [2, 1, 2, 0, 1]
   - A2: [0, 2, 0, 1, 2]
   - A3: [2, 1, 0, 1, 1]
   - A4: [0, 1, 2, 1, 2]
 
-Com LB = 5 e UB = 12, a análise do código identifica como solução ótima a seguinte wave:
+- **Limites:** LB = 5 e UB = 12
 
+**Resultado Esperado:**
+
+A solução ótima deve ser:
 - **Pedidos Selecionados:** O0, O1, O2 e O4  
   - Total de unidades:  
-    - O0: 4 unidades  
-    - O1: 2 unidades  
-    - O2: 3 unidades  
-    - O4: 1 unidade  
-    - **Total = 10 unidades**
-  
+    - O0: 3 + 0 + 1 + 0 + 0 = 4  
+    - O1: 0 + 1 + 0 + 1 + 0 = 2  
+    - O2: 0 + 0 + 1 + 0 + 2 = 3  
+    - O4: 0 + 1 + 0 + 0 + 0 = 1  
+    - **Total = 4 + 2 + 3 + 1 = 10**
 - **Corredores Selecionados:** A1 e A3  
-  - Número de corredores: 2
+  - Número de corredores: 2  
+- **Valor Objetivo:** Média = 10 / 2 = 5
 
-- **Valor Objetivo:**  
-  Média = 10 / 2 = 5
+### Comparação e Cálculo do Valor Objetivo
 
-**Validação e Desempenho**  
-- O código enumera todas as soluções viáveis (o espaço total é pequeno, pois há 10 variáveis com domínio binário, totalizando 2¹⁰ = 1024 combinações).
-- A função objetivo, definida como um par (média, total de unidades), garante que a solução ótima seja escolhida mesmo em caso de empate na média.
-- Os testes realizados confirmam que a solução encontrada é a esperada, atendendo aos critérios de modelagem, restrição e desempenho.
+- Cada wave gerada é avaliada pela função objetivo, que retorna o par (média, total de unidades).  
+- O algoritmo exibe todas as soluções encontradas com os respectivos valores.  
+- Ao final, a solução com o maior par é destacada.  
+- No resultado obtido, por exemplo, são listadas soluções como:
+  - *Sol 1:* Pedidos ['O3'], Corredores ['A3', 'A4'], Objetivo = (2.5, 5)
+  - ...
+  - *Sol 307:* Pedidos ['O0', 'O1', 'O2', 'O4'], Corredores ['A0', 'A1', 'A2', 'A3'], Objetivo = (2.5, 10)
+  - E, finalmente, a solução ótima é destacada:
+    - **Pedidos selecionados:** ['O0', 'O1', 'O2', 'O4']
+    - **Corredores selecionados:** ['A1', 'A3']
+    - **Número de Corredores:** 2
+    - **Total de Unidades:** 10
+    - **Valor Objetivo (Média):** 5.0
+
+### Análise de Desempenho do CSP
+
+- **Cenário Atual:**  
+  Com 10 variáveis e 1024 combinações possíveis, a enumeração completa via backtracking é eficiente, e o tempo de execução é muito baixo para este exemplo.
+
+- **Cenários de Maior Escala:**  
+  Em problemas com um número maior de variáveis (por exemplo, com muitos pedidos e corredores), o espaço de busca cresce exponencialmente.  
+  - Para tais casos, recomenda-se o uso de heurísticas como MRV (Minimum Remaining Values) para a seleção de variáveis e LCV (Least Constraining Value) para a ordenação dos valores, além de técnicas de propagação de restrições.  
+  - Essas técnicas, alinhadas com a estrutura fatorada dos PSRs, podem eliminar rapidamente atribuições inviáveis, reduzindo significativamente o tempo de busca.
+
+- **Conclusão do Desempenho:**  
+  A abordagem atual é adequada para o exemplo fornecido. Para aplicações em larga escala, adaptações e otimizações são necessárias para manter a eficiência da resolução.
 
 ---
 
 ## Conclusão
 
-A solução apresentada modela o problema de seleção ótima de pedidos em waves como um CSP, implementa as restrições e a função objetivo usando a estrutura do AIMA e valida a solução por meio de testes com o exemplo fornecido.  
-**Resultados esperados:**  
-- Total de unidades dos pedidos selecionados: **10**  
-- Número de corredores selecionados: **2**  
-- Valor objetivo (média de itens por corredor): **5**
+A solução desenvolvida modela o problema de seleção ótima de pedidos em waves como um CSP, definindo explicitamente as variáveis, os domínios e as restrições, e utiliza a implementação do AIMA para buscar, comparar e selecionar a melhor wave.  
+**Resultados Obtidos no Exemplo:**
+- **Total de Unidades:** 10  
+- **Número de Corredores:** 2  
+- **Valor Objetivo (Média):** 5
 
-Esta abordagem demonstra a aplicação prática da teoria de CSP para problemas de otimização em ambientes logísticos, e pode ser expandida para cenários com maior complexidade.
+Além disso, o algoritmo lista todas as soluções (waves) viáveis com seus respectivos valores objetivos, permitindo a comparação detalhada. A solução ótima foi destacada de forma clara, e a análise de desempenho demonstra que, embora a enumeração completa seja viável para o exemplo atual, métodos heurísticos serão essenciais para problemas de maior escala.
