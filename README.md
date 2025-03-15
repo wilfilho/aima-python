@@ -504,10 +504,13 @@ A solução ótima agrupa quatro pedidos, atingindo 10 unidades. Com 2 corredore
 
 ## Conclusão
 
-A solução desenvolvida modela o problema de seleção ótima de pedidos em waves como um CSP, definindo explicitamente as variáveis, os domínios e as restrições, e utiliza a implementação do AIMA para buscar, comparar e selecionar a melhor wave.  
-**Resultados Obtidos no Exemplo:**
-- **Total de Unidades:** 10  
-- **Número de Corredores:** 2  
-- **Valor Objetivo (Média):** 5
+A solução desenvolvida foi capaz de encontrar a solução ótimo descrita pelo problema. Além disso, a solução modela o problema de seleção ótima de pedidos em waves como um CSP, definindo explicitamente as variáveis, os domínios e as restrições, e utiliza a implementação do AIMA como base. A solução ótima encontrada pelo algoritmo foi:
 
-Além disso, o algoritmo lista todas as soluções viáveis com seus respectivos valores objetivos, permitindo uma comparação detalhada entre as diferentes waves. A solução ótima é encontrada e retornada, com tempo de execução exibido, demonstrando que, embora a enumeração completa seja viável para o exemplo atual, métodos heurísticos serão essenciais para problemas de maior escala.
+- **Pedidos Selecionados:** ['O0', 'O1', 'O2', 'O4']
+- **Corredores Selecionados:** ['A1', 'A3']
+- **Número de Corredores:** 2
+- **Total de Unidades:** 10
+- **Valor Objetivo (Média):** 5.0
+- **Tempo de Execução:** (exemplo) 0.0179 segundos
+
+A solução ótima é encontrada e retornada, com tempo de execução exibido, demonstrando que, embora a enumeração completa seja viável para o exemplo atual, métodos heurísticos serão essenciais para problemas de maior escala.
