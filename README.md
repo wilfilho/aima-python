@@ -34,6 +34,8 @@ Para desempate, também se considera o total de unidades – ou seja, entre solu
 
 ## Parte 2: Implementação da Solução com AIMA-Python
 
+O código completo da solução pode ser encontrado em [aima/unidade2_mercadolivre.py](https://github.com/wilfilho/aima-python/blob/master/aima/unidade2_mercadolivre.py).
+
 Esta implementação utiliza as estruturas de dados básicas para representar o problema:
 - **Dicionários para os dados:**  
   Os dados dos pedidos e dos corredores são armazenados em dicionários (`orders_data` e `corridors_data`), onde cada chave representa um identificador e o valor é uma lista com as quantidades dos itens.
