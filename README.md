@@ -112,7 +112,7 @@ A saída do algoritmo lista todas as soluções encontradas, por exemplo:
 - ...
 - *Solução 309:* Pedidos ['O0', 'O1', 'O2', 'O4'], Corredores ['A0', 'A1', 'A2', 'A3', 'A4'], Objetivo (média, total) = (2.0, 10)
 
-E, finalmente, a solução ótima é destacada:
+A solução ótima escolhida pelo algoritmo foi:
 
 - **Pedidos Selecionados:** ['O0', 'O1', 'O2', 'O4']
 - **Corredores Selecionados:** ['A1', 'A3']
@@ -120,6 +120,8 @@ E, finalmente, a solução ótima é destacada:
 - **Total de Unidades:** 10
 - **Valor Objetivo (Média):** 5.0
 - **Tempo de Execução:** (exemplo) 0.0179 segundos
+
+A solução proposta retornou o **resultado correto**.
 
 <details>
   <summary>Clique para ver a saída completa retornada pelo algoritmo.</summary>
@@ -447,7 +449,7 @@ Tempo de execução: 0.0179 segundos
 ```
 </details>
 
-### Comparação Profunda de Soluções
+### Comparação de Waves Geradas
 
 #### Solução 1
 - **Pedidos:** ['O3']
@@ -477,7 +479,7 @@ Nesta configuração, os pedidos O3 e O4 somam 6 unidades, resultando em uma mé
 
 A solução ótima agrupa quatro pedidos, atingindo 10 unidades. Com 2 corredores, a média é de 5.0, evidenciando um equilíbrio ideal entre quantidade e uso de recursos.
 
-#### Análise Comparativa
+#### Detalhes
 
 - **Cobertura dos Pedidos:**  
   A solução ótima inclui 4 pedidos, enquanto as demais englobam apenas 1 ou 2. Mais pedidos resultam em maior total de unidades e, consequentemente, melhor média.
@@ -508,4 +510,4 @@ A solução desenvolvida modela o problema de seleção ótima de pedidos em wav
 - **Número de Corredores:** 2  
 - **Valor Objetivo (Média):** 5
 
-Além disso, o algoritmo lista todas as soluções viáveis com seus respectivos valores objetivos, permitindo uma comparação detalhada entre as diferentes waves. A solução ótima é destacada de forma clara, com tempo de execução exibido, demonstrando que, embora a enumeração completa seja viável para o exemplo atual, métodos heurísticos serão essenciais para problemas de maior escala.
+Além disso, o algoritmo lista todas as soluções viáveis com seus respectivos valores objetivos, permitindo uma comparação detalhada entre as diferentes waves. A solução ótima é encontrada e retornada, com tempo de execução exibido, demonstrando que, embora a enumeração completa seja viável para o exemplo atual, métodos heurísticos serão essenciais para problemas de maior escala.
