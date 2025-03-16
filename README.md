@@ -519,6 +519,6 @@ A solução desenvolvida foi capaz de encontrar a solução ótimo descrita pelo
 - **Número de Corredores:** 2
 - **Total de Unidades:** 10
 - **Valor Objetivo (Média):** 5.0
-- **Tempo de Execução:** (exemplo) 0.0179 segundos
+- **Tempo de Execução:** 0.0179 segundos
 
 O tempo de execução exibido, demonstrando que, embora a enumeração completa seja viável para o exemplo atual, métodos heurísticos serão essenciais para problemas de maior escala.
